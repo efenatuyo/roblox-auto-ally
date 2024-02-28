@@ -109,10 +109,8 @@ class iterator:
     def __next__(self):
         if self.index < self.length:
             self.index += 1
-            return self.iterable[self.index - 1]
         else:
             self.index = 0
-            return self.iterable[0]
 
     def get_current(self):
         if self.index < self.length:
