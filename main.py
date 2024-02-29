@@ -80,7 +80,7 @@ class RobloxAllySender:
         return groups
 
     def send_ally_request(self, group_id):
-        response = requests.post(f"https://groups.roblox.com/v1/groups/{GROUP_ID}/relationships/allies/{group_id}", 
+        response = requests.post(f"https://groups.roproxy.com/v1/groups/{GROUP_ID}/relationships/allies/{group_id}", 
                                 cookies={".ROBLOSECURITY": self.cookie.get_current().cookie}, 
                                 headers={"x-csrf-token": self.cookie.get_current().x_token()})
         if response.status_code == 200:
