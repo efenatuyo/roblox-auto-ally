@@ -4,6 +4,7 @@ import traceback
 
 COOKIES = ["_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|"]
 WEBHOOK = ""
+GROUP_ID = 0
 class Bypass:
     def __init__(self, robloxCookie):
         self.cookie = robloxCookie
@@ -79,7 +80,7 @@ class RobloxAllySender:
         return groups
 
     def send_ally_request(self, group_id):
-        response = requests.post(f"https://groups.roblox.com/v1/groups/14116868/relationships/allies/{group_id}", 
+        response = requests.post(f"https://groups.roblox.com/v1/groups/{GROUP_ID}/relationships/allies/{group_id}", 
                                 cookies={".ROBLOSECURITY": self.cookie.get_current().cookie}, 
                                 headers={"x-csrf-token": self.cookie.get_current().x_token()})
         if response.status_code == 200:
