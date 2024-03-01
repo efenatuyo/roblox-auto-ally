@@ -110,7 +110,7 @@ class RobloxAllySender:
                 allies.remove(group)
                 self.send_ally_request(group)
                 next(self.cookie)
-                time.sleep(60 / 15)
+                time.sleep(60 / len(COOKIES))
                 allies += self.get_allies_group(group)
           except Exception as e:
               requests.post(WEBHOOK, json={"content": f"ERROR: {traceback.format_exc()}"})
