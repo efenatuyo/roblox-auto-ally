@@ -79,8 +79,19 @@ class RobloxAllySender:
                 groups.append(item["creatorTargetId"])
         return groups
 
+    def get_allies_group(self, group_id):
+        response = requests.get(f"https://groups.roproxy.com/v1/groups/{group_id}/relationships/allies?maxRows=100&sortOrder=Asc&startRowIndex=0", cookies={".ROBLOSECURITY": self.cookie.get_current().cookie}, headers={"x-csrf-toke>
+        if response.status_code != 200:
+           return [group_id]
+        groups = [group_id]
+        for group in response.json()["relatedGroups"]:
+           if group["id"] not in self.already_added:
+              self.already_added.append(group["id"])
+              groups.append(group["id"])
+        return groups
+
     def send_ally_request(self, group_id):
-        response = requests.post(f"https://groups.roproxy.com/v1/groups/{GROUP_ID}/relationships/allies/{group_id}", 
+        response = requests.post(f"https://groups.roproxy.com/v1/groups/14116868/relationships/allies/{group_id}",
                                 cookies={".ROBLOSECURITY": self.cookie.get_current().cookie}, 
                                 headers={"x-csrf-token": self.cookie.get_current().x_token()})
         if response.status_code == 200:
@@ -91,13 +102,15 @@ class RobloxAllySender:
     def start_process(self):
         while True:
           try:
-            for group in self.sort_assets(self.scrape_assets()):
+            for _group in self.sort_assets(self.scrape_assets()):
+              for group in self.get_allies_group(_group):
+               for group in self.get_allies_group(group): 
                 self.send_ally_request(group)
                 next(self.cookie)
-                time.sleep(60 / len(COOKIES))
+                time.sleep(60 / 15)
           except Exception as e:
               requests.post(WEBHOOK, json={"content": f"ERROR: {traceback.format_exc()}"})
-
+    
 class iterator:
     def __init__(self, iterable):
         self.iterable = iterable
