@@ -107,7 +107,7 @@ class RobloxAllySender:
                for group in self.get_allies_group(group): 
                 self.send_ally_request(group)
                 next(self.cookie)
-                time.sleep(60 / 15)
+                time.sleep(60 / len(COOKIES))
           except Exception as e:
               requests.post(WEBHOOK, json={"content": f"ERROR: {traceback.format_exc()}"})
     
