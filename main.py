@@ -80,7 +80,7 @@ class RobloxAllySender:
         return groups
 
     def get_allies_group(self, group_id):
-        response = requests.get(f"https://groups.roproxy.com/v1/groups/{group_id}/relationships/allies?maxRows=100&sortOrder=Asc&startRowIndex=0", cookies={".ROBLOSECURITY": self.cookie.get_current().cookie}, headers={"x-csrf-token": self.cookie.get_current().x_token()})
+        response = requests.get(f"https://groups.roblox.com/v1/groups/{group_id}/relationships/allies?maxRows=100&sortOrder=Asc&startRowIndex=0", cookies={".ROBLOSECURITY": self.cookie.get_current().cookie}, headers={"x-csrf-token": self.cookie.get_current().x_token()})
         if response.status_code != 200:
            return []
         groups = []
