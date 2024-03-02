@@ -2,4 +2,4 @@
 tool that is used to send mass ally request to groups
 
 
-change `COOKIES` and `WEBHOOK` in `main.py` line `5-6` 
+change `COOKIES`, `GROUP_ID` and `WEBHOOK` in `main.py` line `5-` 
