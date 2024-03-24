@@ -75,6 +75,7 @@ async def start_process(session, cookies, group_id, webhook_queue, threads, send
                 already_found.append(group)
                 allies.append(group)
                 while allies:
+                   try:
                     tasks = []
                     current_index = 0
                     for group in allies:
@@ -90,5 +91,7 @@ async def start_process(session, cookies, group_id, webhook_queue, threads, send
                             if group not in allies:
                                 allies.append(group)
                     await asyncio.sleep(60 / len(cookies))
+                   except:
+                       continue
         except:
             pass
