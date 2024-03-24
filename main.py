@@ -5,15 +5,13 @@ import asyncio, aiohttp, random, json
 async def main():
     config = json.loads(open("config.json", "r").read())
     cookies = open("cookies.txt", "r").read().rstrip("\n").splitlines()
-    proxies = proxy.make(len(cookies))
+    proxies = proxy.make(len(cookies) * 50)
     
     cookie_objects = []
     cookie_region_unlock_tasks = []
     async with aiohttp.ClientSession() as session:
         for _cookie in cookies:
-            random_proxy = random.choice(proxies)
-            proxies.remove(random_proxy)
-            cookie_object = cookie.RobloxCookie(_cookie, random_proxy)
+            cookie_object = cookie.RobloxCookie(_cookie, proxies)
             cookie_objects.append(cookie_object)
             if config["region_unlock_cookies"]:
                 cookie_region_unlock_tasks.append(cookie_object.region_unlock(session))
