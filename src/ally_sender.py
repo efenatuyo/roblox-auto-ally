@@ -53,9 +53,11 @@ class RobloxAllySender:
                                 headers={"x-csrf-token": await cookie.x_token(session)},
                                 proxy=cookie.proxy)
         if response.status == 200:
+            print(f"+ {group_id}")
             webhook_queue.messages.append(f"Sent ally request to group: {group_id}")
         else:
             if send_fail:
+                print(f"- {group_id}")
                 webhook_queue.messages.append(await response.text())
         cookie.proxy = random.choice(cookie.proxies)
         
@@ -65,12 +67,13 @@ async def handle_group(session, cookie, group, group_id, webhook_queue, already_
     
 async def start_process(session, cookies, group_id, webhook_queue, threads, send_fail):
     already_found = open("src/data/already_added.txt", "r").read().rsplit("\n")
+    allies = []
     while True:
         try:
             random_cookie = random.choice(cookies)
             for group in await RobloxAllySender.sort_assets(session, random_cookie, already_found, await RobloxAllySender.scrape_assets(session, random_cookie)):
                 already_found.append(group)
-                allies = [group]
+                allies.append(group)
                 while allies:
                     tasks = []
                     current_index = 0
@@ -82,7 +85,6 @@ async def start_process(session, cookies, group_id, webhook_queue, threads, send
                             tasks.append(handle_group(session, cookies[current_index], group, group_id, webhook_queue, already_found, send_fail))
                             allies.remove(group)
                             current_index += 1
-                    current_index = 0
                     for response in await async_lock.limited_gather(threads, *tasks):
                         for group in response:
                             if group not in allies:
