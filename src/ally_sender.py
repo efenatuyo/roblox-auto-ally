@@ -82,6 +82,7 @@ async def start_process(session, cookies, group_id, webhook_queue, threads, send
                             tasks.append(handle_group(session, cookies[current_index], group, group_id, webhook_queue, already_found, send_fail))
                             allies.remove(group)
                             current_index += 1
+                    current_index = 0
                     for response in await async_lock.limited_gather(threads, *tasks):
                         for group in response:
                             if group not in allies:
