@@ -1,4 +1,4 @@
-import time
+import time, random
 
 class Bypass:
     async def run(self, robloxCookie, session, proxy):
@@ -28,10 +28,11 @@ class Bypass:
         return xcsrf_token
     
 class RobloxCookie(Bypass):
-    def __init__(self, cookie, proxy):
+    def __init__(self, cookie, proxies):
         self.cookie = cookie
         self._x_token = None
-        self.proxy = proxy
+        self.proxies = proxies
+        self.proxy = random.choice(proxies)
         self.last_generated_time = 120
 
     async def generate_token(self, session):

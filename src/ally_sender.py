@@ -57,7 +57,8 @@ class RobloxAllySender:
         else:
             if send_fail:
                 webhook_queue.messages.append(await response.text())
-            
+        cookie.proxy = random.choice(cookie.proxies)
+        
 async def handle_group(session, cookie, group, group_id, webhook_queue, already_found, send_fail):
     await RobloxAllySender.send_ally_request(session, cookie, group, group_id, webhook_queue, send_fail)
     return await RobloxAllySender.get_allies_group(session, cookie, group, already_found)
