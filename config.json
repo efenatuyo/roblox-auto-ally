@@ -1,5 +1,5 @@
 {
-    "webhook": "https://discord.com/api/webhooks//",
+    "webhook": "https://discord.com/api/webhooks/",
     "region_unlock_cookies": false,
     "send_failed_request_webhook": false,
     "total_threads": 30,
