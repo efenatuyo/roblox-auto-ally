@@ -1,6 +1,6 @@
 {
     "webhook": "https://discord.com/api/webhooks/",
-    "region_unlock_cookies": false,
+    "region_unlock_cookies": true,
     "send_failed_request_webhook": false,
     "total_threads": 30,
     "webhook_wait_time": 5,
