@@ -11,6 +11,9 @@ class RobloxAllySender:
                             headers={"x-csrf-token": await cookie.x_token(session)},
                             proxy=cookie.proxy)
         if items.status != 200:
+            if items.status == 429:
+               cookie.proxy = random.choice(cookie.proxies)
+               await cookie.generate_token(session)
             return []
         return [item['id'] for item in (await items.json())["data"]]
     
@@ -21,6 +24,9 @@ class RobloxAllySender:
                                 headers={"x-csrf-token": await cookie.x_token(session)},
                                 proxy=cookie.proxy)
         if response.status != 200:
+           if response.status == 429:
+               cookie.proxy = random.choice(cookie.proxies)
+               await cookie.generate_token(session)
            return []
         groups = []
         for group in (await response.json())["relatedGroups"]:
@@ -37,6 +43,9 @@ class RobloxAllySender:
                                 headers={"x-csrf-token": await cookie.x_token(session)},
                                 proxy=cookie.proxy)
         if response.status != 200:
+            if response.status == 429:
+               cookie.proxy = random.choice(cookie.proxies)
+               await cookie.generate_token(session)
             return []
         groups = []
         for item in (await response.json())["data"]:
@@ -56,10 +65,12 @@ class RobloxAllySender:
             print(f"+ {group_id}")
             webhook_queue.messages.append(f"Sent ally request to group: {group_id}")
         else:
+            if response.status == 429:
+               cookie.proxy = random.choice(cookie.proxies)
+               await cookie.generate_token(session)
             if send_fail:
                 print(f"- {group_id}")
                 webhook_queue.messages.append(await response.text())
-        cookie.proxy = random.choice(cookie.proxies)
         
 async def handle_group(session, cookie, group, group_id, webhook_queue, already_found, send_fail):
     await RobloxAllySender.send_ally_request(session, cookie, group, group_id, webhook_queue, send_fail)
