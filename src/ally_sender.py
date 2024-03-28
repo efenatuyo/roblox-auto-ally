@@ -77,7 +77,7 @@ async def handle_group(session, cookie, group, group_id, webhook_queue, already_
         await RobloxAllySender.send_ally_request(session, cookie, group, group_id, webhook_queue, send_fail)
         return await RobloxAllySender.get_allies_group(session, cookie, group, already_found)
     except:
-        return
+        return []
     
 async def start_process(session, cookies, group_id, webhook_queue, threads, send_fail):
     already_found = open("src/data/already_added.txt", "r").read().rsplit("\n")
