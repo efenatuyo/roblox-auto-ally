@@ -36,7 +36,7 @@ class RobloxCookie(Bypass):
         self.last_generated_time = 120
 
     async def generate_token(self, session):
-        self._x_token = (await session.post("https://economy.roblox.com/", cookies={".ROBLOSECURITY": self.cookie}, proxy=self.proxy)).headers.get("x-csrf-token")
+        self._x_token = (await session.post("https://auth.roblox.com/v2/logout", cookies={".ROBLOSECURITY": self.cookie}, proxy=self.proxy)).headers.get("x-csrf-token")
         self.last_generated_time = time.time()
 
     async def x_token(self, session):
